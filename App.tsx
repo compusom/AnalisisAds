@@ -25,7 +25,7 @@ const fileToGenerativePart = async (file: File) => {
 };
 
 const getFormatAnalysis = async (creativeSet: CreativeSet, formatGroup: FormatGroup): Promise<AnalysisResult | null> => {
-    if (!process.env.API_KEY) {
+    if (!process.env.GEMINI_API_KEY) {
         return { 
             effectivenessScore: 0,
             effectivenessJustification: "",
@@ -38,10 +38,10 @@ const getFormatAnalysis = async (creativeSet: CreativeSet, formatGroup: FormatGr
             recommendations: [],
             advantagePlusAnalysis: [],
             placementSummaries: [],
-            overallConclusion: { headline: "Error de Configuración", checklist: [{ severity: 'CRITICAL', text: "La API Key de Gemini no está configurada. Por favor, asegúrate de que la variable de entorno API_KEY esté disponible."}] },
+            overallConclusion: { headline: "Error de Configuración", checklist: [{ severity: 'CRITICAL', text: "La API Key de Gemini no está configurada. Por favor, asegúrate de que la variable de entorno GEMINI_API_KEY esté disponible."}] },
         };
     }
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     
     const placementsForFormat = PLACEMENTS.filter(p => p.group === formatGroup);
     const placementListForPrompt = placementsForFormat.map(p => `- ${p.name} (ID: ${p.id}, Aspectos: ${p.aspectRatios.join(', ')})`).join('\n');
